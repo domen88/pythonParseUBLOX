@@ -1,9 +1,12 @@
 #!/usr/bin/python
 
 """
-Authors
-Domenico Scotece
-Michele Solimando
+Authors:
+    Domenico Scotece
+    Michele Solimando
+
+Description:
+
 """
 
 import socket
