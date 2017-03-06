@@ -1,5 +1,11 @@
 #!/usr/bin/python
 
+"""
+Authors
+Domenico Scotece
+Michele Solimando
+"""
+
 import socket
 
 class socketClass:
