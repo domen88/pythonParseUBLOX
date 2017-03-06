@@ -14,7 +14,7 @@ class socketClass:
     def connect(self, host, port):
         self.sock.connect((host,port))
 
-    #Funzione invia messaggi
+    #Funzione invio dei messaggi
     def sendMessage(self, msg):
         amount_received=0
         amount_expected = len(msg)
