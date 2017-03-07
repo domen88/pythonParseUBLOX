@@ -16,6 +16,7 @@ Description:
 import sys
 import socket
 import signal
+from MessageProtocol import MessageProtocol
 
 
 # Intercept SIGINT
@@ -23,13 +24,6 @@ def signal_handler(signal, frame):
     print('You pressed Ctrl+C!')
     sys.exit(0)
 signal.signal(signal.SIGINT, signal_handler)
-
-
-# Class Shared Client/Server
-class MessageProtocol:
-    MSG_START = 'start'
-    MSG_STOP = 'stop'
-    MSG_OK = 'ok'
 
 
 def main(argv):
@@ -43,10 +37,20 @@ def main(argv):
         # receive ack from server
         data = s.recv(MessageProtocol.MSG_OK.__len__())
         print 'Ack received from server.'
+        text_file = open("ricevuto.txt", 'w')
 
         if data == MessageProtocol.MSG_OK:
             print 'Starting to receive server data...'
             # receive data from server
+            while True:
+                data = s.recv(1024)
+                if len(data) == 0:
+                    text_file.write("\n")
+                    text_file.close()
+                    break
+                else:
+                    text_file.write(data)
+                    text_file.flush()
 
         else:
             print >> sys.stderr, 'Protocol Error!! Exit'
@@ -54,16 +58,6 @@ def main(argv):
             # Exit with error code
             sys.exit(1)
 
-        """
-        # Look for the response
-        amount_received = 0
-        amount_expected = len(message)
-
-        while amount_received < amount_expected:
-            data = s.recv(16)
-            amount_received += len(data)
-            print >> sys.stderr, 'received "%s"' % data
-        """
 
     except KeyboardInterrupt:
         print >> sys.stderr, 'Keyboard Interrupt received. Exit.'

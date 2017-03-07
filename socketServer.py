@@ -15,13 +15,7 @@ Description:
 
 import sys
 import socket
-
-
-# Class Shared Client/Server
-class MessageProtocol:
-    MSG_START = 'start'
-    MSG_STOP = 'stop'
-    MSG_OK = 'ok'
+from MessageProtocol import MessageProtocol
 
 
 def main(argv):
@@ -48,11 +42,22 @@ def main(argv):
                 # send ack connection
                 socketClient.sendall(MessageProtocol.MSG_OK)
 
-                # send data to client
-                """
+                #DEBUG
+                #Open test file
+                try:
+                    f = open('position.txt', 'r')
+                except IOError as e:
+                    print 'IOError ', e.strerror
+
                 while True:
-                   print >> sys.stderr, 'received "%s"' % data, ' from ', address
-                """
+                    #STREAM
+                    line=f.read(1024)
+                    if len(line)==0:
+                        socketClient.close()
+                        break
+                    socketClient.sendall(line)
+
+
 
             else:
                 print >> sys.stderr, 'Protocol Error!! Exit'
