@@ -44,9 +44,9 @@ def main(argv):
             # receive data from server
             while True:
                 # Ricevi lunghezza della linea
-                dim = s.recv(12)
+                dim=s.recv(12)
                 # Ricevi linea
-                data = s.recv(dim)
+                data=s.recv(int(dim))
                 if len(data) == 0:
                     text_file.write("\n")
                     text_file.close()
@@ -61,13 +61,14 @@ def main(argv):
             # Exit with error code
             sys.exit(1)
 
-
     except KeyboardInterrupt:
         print >> sys.stderr, 'Keyboard Interrupt received. Exit.'
         s.close()
+        sys.exit(2)
     finally:
         print >> sys.stderr, 'closing socket'
         s.close()
+        sys.exit(3)
 
 
 if __name__ == "__main__":

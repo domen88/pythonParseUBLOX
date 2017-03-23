@@ -65,7 +65,7 @@ def main(argv):
                         socketClient.close()
                         break
                     # Dimensione della linea
-                    dim=sys.getsizeof(len(line))
+                    dim=str(len(line))
                     # Invio lunghezza linea
                     socketClient.sendall(dim)
                     # Invio linea
