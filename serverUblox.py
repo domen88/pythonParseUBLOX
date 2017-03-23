@@ -24,6 +24,15 @@ def signal_handler(signal, frame):
 
 
 def main(argv):
+
+    # Retrieve serial port
+    if len(sys.argv) <= 1:
+        print >> sys.stderr, 'Usage python '+sys.argv[0]+ ' [port]'
+        # Exit with error code
+        sys.exit(1)
+
+    port=argv[0]
+
     # Register handler Ctrl-C
     signal.signal(signal.SIGINT, signal_handler)
 
@@ -53,7 +62,7 @@ def main(argv):
 
                 # Open Serial Port
                 try:
-                    ser = serial.Serial('/dev/ttyACM0')
+                    ser = serial.Serial('/dev/'+port)
                     ser.baudrate = 115200
                 except serial.SerialException as e:
                     print 'IOError ', e.strerror

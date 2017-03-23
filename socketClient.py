@@ -27,8 +27,18 @@ signal.signal(signal.SIGINT, signal_handler)
 
 
 def main(argv):
+
+    # Retrieve server ip address
+    if len(sys.argv) <= 1:
+        print >> sys.stderr, 'Usage python ' + sys.argv[0] + ' [ip address]'
+        # Exit with error code
+        sys.exit(1)
+
+    ipserver = argv[0]
+
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.connect(('137.204.57.178', 8282))
+    s.connect((ipserver, 8282))
+
     try:
         # send first protocol message
         s.sendall(MessageProtocol.MSG_START)
