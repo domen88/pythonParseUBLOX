@@ -31,7 +31,7 @@ def main(argv):
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     # Option to immediately reuse the socket if it is in TIME_WAIT status, due to a previous execution.
     server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-    server_socket.bind(('localhost', 8282))
+    server_socket.bind(('0.0.0.0', 8282))
     server_socket.listen(1)
 
     while True:
