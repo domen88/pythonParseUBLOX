@@ -64,10 +64,12 @@ def main(argv):
                     if len(line) == 0:
                         socketClient.close()
                         break
-                    print 'LUNGHEZZA LINEA ', len(line)
-                    # socketClient.sendall(line)
-
-
+                    # Dimensione della linea
+                    dim=sys.getsizeof(len(line))
+                    # Invio lunghezza linea
+                    socketClient.sendall(dim)
+                    # Invio linea
+                    socketClient.sendall(line)
 
             else:
                 print >> sys.stderr, 'Protocol Error!! Exit'

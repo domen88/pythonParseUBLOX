@@ -28,7 +28,7 @@ signal.signal(signal.SIGINT, signal_handler)
 
 def main(argv):
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.connect(('localhost', 8282))
+    s.connect(('137.204.57.178', 8282))
     try:
         # send first protocol message
         s.sendall(MessageProtocol.MSG_START)
@@ -43,7 +43,10 @@ def main(argv):
             print 'Starting to receive server data...'
             # receive data from server
             while True:
-                data = s.recv(1024)
+                # Ricevi lunghezza della linea
+                dim = s.recv(12)
+                # Ricevi linea
+                data = s.recv(dim)
                 if len(data) == 0:
                     text_file.write("\n")
                     text_file.close()
