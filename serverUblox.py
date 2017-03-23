@@ -1,50 +1,89 @@
-import serial
-import signal 
+#!/usr/bin/python
+
+"""
+Authors:
+    Domenico Scotece
+    Michele Solimando
+
+Description:
+
+"""
+
 import sys
 import socket
+import serial
+import signal
+from MessageProtocol import MessageProtocol
 
-#Open Serial Port
-ser = serial.Serial('/dev/ttyACM0')
-ser.baudrate = 115200
 
-#TODO: open file in append? or write?
-text_file = open("position.txt", 'w')
-
-#Open Socket
-#s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-#server_address = ('0.0.0.0', 54321)
-#s.bind(server_address)
-#s.listen(1)
-
-#register handler Ctrl-C
+# Handler Ctrl-C
 def signal_handler(signal, frame):
-        print('You pressed Ctrl+C!')
-	#close the serial connection and text file
-	text_file.write("\n")
-	text_file.close()
-	#ser.close()
-	#s.close()
-        sys.exit(0)
-signal.signal(signal.SIGINT, signal_handler)
-#signal.pause()
+    print('You pressed Ctrl+C!')
+    # TODO: gestione dell'handler
+    sys.exit(0)
 
-while 1:
-	#print >> sys.stderr, '\nWaiting for a connection...\n'
-	#connection, client_address = s.accept()	
-	#try:
-	#print 'Client connesso '
 
-	x=ser.readline() #read LINE
-	#x=ser.read() #read ONE
+def main(argv):
+    # Register handler Ctrl-C
+    signal.signal(signal.SIGINT, signal_handler)
 
-	#s.sendall(x)
-	#connection.recv();
+    # Open socket
+    server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    # Option to immediately reuse the socket if it is in TIME_WAIT status, due to a previous execution.
+    server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    server_socket.bind(('localhost', 8282))
+    server_socket.listen(1)
 
-	#DEBUG
-	#print x
+    while True:
+        # accept connections
+        print 'Wait for connection'
+        (socketClient, address) = server_socket.accept()
+        try:
+            print 'Client ADDRESS: ', address
+            # receive start message
+            data = socketClient.recv(MessageProtocol.MSG_START.__len__())
 
-	text_file.write(x)
-	text_file.flush()
+            # DEBUG
+            print data
 
-	#finally:
-	#       connection.close()
+            if data == MessageProtocol.MSG_START:
+                print 'Start sending data to client'
+                # send ack connection
+                socketClient.sendall(MessageProtocol.MSG_OK)
+
+                # Open Serial Port
+                try:
+                    ser = serial.Serial('/dev/ttyACM0')
+                    ser.baudrate = 115200
+                except serial.SerialException as e:
+                    print 'IOError ', e.strerror
+
+                while True:
+                    # STREAM
+                    line = ser.readline()
+                    if len(line) == 0:
+                        socketClient.close()
+                        break
+                    print 'LUNGHEZZA LINEA ', len(line)
+                    # socketClient.sendall(line)
+
+
+
+            else:
+                print >> sys.stderr, 'Protocol Error!! Exit'
+                socketClient.close()
+                # Exit with error code
+                sys.exit(1)
+
+        except (KeyboardInterrupt, SystemExit):
+            print >> sys.stderr, 'KeyboardInterrupt or SystemExit Received. Exit.'
+            socketClient.close()
+
+        finally:
+            # close connection
+            print 'Client ', address, 'Disconnected.'
+            socketClient.close()
+
+
+if __name__ == "__main__":
+    main(sys.argv[1:])
