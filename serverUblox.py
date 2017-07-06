@@ -13,7 +13,8 @@ import sys
 import socket
 import serial
 import signal
-from MessageProtocol import MessageProtocol
+#from MessageProtocol import MessageProtocol
+import ubx
 
 
 # Handler Ctrl-C
@@ -22,6 +23,8 @@ def signal_handler(signal, frame):
     # TODO: gestione dell'handler
     sys.exit(0)
 
+def callback(ty, *args):
+    print("callback %s %s" % (ty, repr(args)))
 
 def main(argv):
 
@@ -36,7 +39,10 @@ def main(argv):
     # Register handler Ctrl-C
     signal.signal(signal.SIGINT, signal_handler)
 
-    # Open socket
+    t = ubx.Parser(callback, '/dev/' + port)
+    t.parsedevice()
+
+    '''# Open socket
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     # Option to immediately reuse the socket if it is in TIME_WAIT status, due to a previous execution.
     server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -93,7 +99,7 @@ def main(argv):
         finally:
             # close connection
             print 'Client ', address, 'Disconnected.'
-            socketClient.close()
+            socketClient.close() '''
 
 
 if __name__ == "__main__":
