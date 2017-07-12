@@ -118,39 +118,39 @@ MSGFMT = {
         ["<BxxxIiiibbbxI", ["version", "ITOW", "ECEF_X", "ECEF_Y", "ECEF_Z", "hECEF_X", "hECEF_Y", "hECEF_Z", "Pacc"]],
     ("NAV-HPPOSLLH", 36) :
         ["<BxxxIiiiibbbbII", ["version", "ITOW", "LON", "LAT", "HEIGHT", "HMSL", "hLON",  "hLAT", "hHEIGHT", "hHMSL", "Hacc", "Vacc"]],
-    ("NAV-POSUTM", 18) :
+    ("NAV-POSUTM", 18):
         ["<Iiiibb", ["ITOW", "EAST", "NORTH", "ALT", "ZONE", "HEM"]],
-    ("NAV-DOP", 18) :
+    ("NAV-DOP", 18):
         ["<IHHHHHHH", ["ITOW", "GDOP", "PDOP", "TDOP", "VDOP", "HDOP", "NDOP", "EDOP"]],
-    ("NAV-STATUS", 16) :
+    ("NAV-STATUS", 16):
         ["<IBBBxII", ["ITOW", "GPSfix", "Flags", "DiffS", "TTFF", "MSSS"]],
     #("NAV-SOL", 52) :
       #  ["<IihBBiiiIiiiIHxBxxxx", ["ITOW", "Frac", "week", "GPSFix", "Flags", "ECEF_X", "ECEF_Y", "ECEF_Z", "Pacc",
        #  "ECEFVX", "ECEFVY", "ECEFVZ", "SAcc", "PDOP", "numSV"]],
-    ("NAV-VELECEF", 20) :
+    ("NAV-VELECEF", 20):
         ["<IiiiI", ["ITOW", "ECEFVX", "ECEFVY", "ECEFVZ", "SAcc"]],
-    ("NAV-VELNED", 36) :
+    ("NAV-VELNED", 36):
         ["<IiiiIIiII", ["ITOW", "VEL_N", "VEL_E", "VEL_D", "Speed", "GSpeed", "Heading", "SAcc", "CAcc"]],
-    ("NAV-TIMEGPS", 16) :
+    ("NAV-TIMEGPS", 16):
         ["<IihbBI", ["ITOW", "Frac", "week", "LeapS", "Valid", "TAcc"]],
-    ("NAV-TIMEUTC", 20) :
+    ("NAV-TIMEUTC", 20):
         ["<IIiHBBBBBB", ["ITOW", "TAcc", "Nano", "Year", "Month", "Day", "Hour", "Min", "Sec", "Valid"]],
-    ("NAV-CLOCK",  20) :
+    ("NAV-CLOCK",  20):
         ["<IiiII", ["ITOW", "CLKB", "CLKD", "TAcc", "FAcc"]],
-    ("NAV-SVINFO", None) :
+    ("NAV-SVINFO", None):
         [8, "<IBxxx", ["ITOW", "NCH"], 12, "<BBBbBbhi", ["chn", "SVID", "Flags", "QI", "CNO", "Elev", "Azim", "PRRes"]],
-    ("NAV-DGPS", None) :
+    ("NAV-DGPS", None):
         [16, "<IihhBBxx", ["ITOW", "AGE", "BASEID", "BASEHLTH", "NCH", "STATUS"], 12, "<BBHff", ["SVID", "Flags", "AGECH", "PRC", "PRRC"]],
-    ("NAV-SBAS", None) :
+    ("NAV-SBAS", None):
         [12, "<IBBbBBxxx", ["ITOW", "GEO", "MODE", "SYS", "SERVICE", "CNT"], 12, "<BBBBBxhxxh", ["SVID", "FLAGS", "UDRE", "SYSn", "SERVICEn", "PRC", "IC"]],
-    ("NAV-EKFSTATUS", 36) : # no response to query
+    ("NAV-EKFSTATUS", 36):  # no response to query
         ["<iiIhbbiiihhhbB", ["pulses", "period", "gyromean", "temp", "dir", "calib", "pulse", "gbias", "gscale", "accps", "accgb", "accgs", "used", "res"]],
     # ('RXM-RAW', [{'Week': 1575, 'ITOW': 475184470, 'NSV': 0}])
-    ("RXM-RAW", None) :
+    ("RXM-RAW", None):
         [8, "<ihBx", ["ITOW", "Week", "NSV"], 24, "<ddfBbbB", ["CPMes", "PRMes", "DOMes", "SV", "MesQI", "CNO", "LLI"]],
-    ("RXM-SVSI", None) :
+    ("RXM-SVSI", None):
         [8, "<ihBB", ["ITOW", "Week", "NumVis", "NumSv"], 6, "<BBhbB", ["SVID", "SVFlag", "Azim", "Elev", "Age"]],
-    ("RXM-SFRB", 42) :
+    ("RXM-SFRB", 42):
         ["<BBiiiiiiiiii", ["CHN", "SVID", "DWRD0", "DWRD1", "DWRD2", "DWRD3", "DWRD4", "DWRD5", "DWRD6", "DWRD7", "DWRD8", "DWRD9"]],
     ("RXM-ALM", 1) :
         ["<B", ["SVID"]],
@@ -204,7 +204,7 @@ MSGFMT = {
         ["<BxxxBBBBiBBBBBBxxHHHHBxxxxxxxxxxx", ["Platform", "MinSVInitial", "MinSVs", "MaxSVs", "FixMode",
          "FixedAltitude", "MinCN0Initial", "MinCN0After", "MinELE", "DGPSTO", "MaxDR", "NAVOPT", "PDOP",
          "TDOP", "PACC", "TACC", "StaticThres"]],
-# CFG DAT - Get/Set current Datum
+    # CFG DAT - Get/Set current Datum
     ("CFG-INF", 1) :
         ["<B", ["ProtocolID"]],
     ("CFG-INF", None) :
@@ -229,8 +229,8 @@ MSGFMT = {
         ["<BxxxII", ["CH", "RATE", "FLAGS"]],
     ("CFG-TMODE", 28) :
         ["<IiiiIII", ["TimeMode", "FixedPosX", "FixedPosY", "FixedPosZ", "FixedPosVar", "SvinMinDur", "SvinVarLimit"]],
-# CFG EKF - Dead Reckoning
-# UPD - Lowlevel memory manipulation
+    # CFG EKF - Dead Reckoning
+    # UPD - Lowlevel memory manipulation
     ("UPD-UPLOAD", 12 + 16) :
         ["<III" + "B"*16, ["StartAddr", "DataSize", "Flags", "B0", "B1", "B2", "B3", "B4", "B5", "B6", "B7", "B8", "B9", "B10", "B11", "B12", "B13", "B14", "B15"]],
     ("UPD-UPLOAD", 12 + 1) :
@@ -241,7 +241,7 @@ MSGFMT = {
         ["<II", ["StartAddr", "Flags"]],
     ("MON-SCHD", 24) :
         ["<IIIIHHHBB", ["TSKRUN", "TSKSCHD", "TSKOVRR", "TSKREG", "STACK", "STACKSIZE", "CPUIDLE", "FLYSLY", "PTLSLY"]],
-# MON - GPS system statistics
+    # MON - GPS system statistics
     ("MON-HW", 64 + 8) :
         ["<IIIIHHBBBxI" + ("B" * 32) + "I" + ("x" * 8), ["PinSel", "PinBank", "PinDir", "PinVal", "NoisePerMS", "AGCCnt", "AStatus", "APower", "flags", "useMask", "v0", "v1", "v2", "v3", "v4", "v5", "v6", "v7", "v8", "v9", "v10", "v11", "v12", "v13", "v14", "v15", "v16", "v17", "v18", "v19", "v20", "v21", "v22", "v23", "v24", "v25", "v26", "v27", "v28", "v29", "v30", "v31", "PinIRQ"]],
     ("MON-VER", 40) :
@@ -272,10 +272,11 @@ MSGFMT = {
         ["<" + "I"*26, ["SVID", "HOW", "SF1D0", "SF1D1", "SF1D2", "SF1D3", "SF1D4",
             "SF1D5", "SF1D6", "SF1D7", "SF2D0", "SF2D1", "SF2D2", "SF2D3", "SF2D4",
             "SF2D5", "SF2D6", "SF2D7", "SF3D0", "SF3D1", "SF3D2", "SF3D3", "SF3D4", "SF3D5", "SF3D6", "SF3D7"]]
-# TIM - Timekeeping
+    # TIM - Timekeeping
 }
 
 MSGFMT_INV = dict( [ [(CLIDPAIR[clid], le),v + [clid]] for (clid, le),v in MSGFMT.items() ] )
+
 
 class Parser():
     def __init__(self, callback, rawCallback=None, device="/dev/ttyACM0"):
@@ -291,7 +292,7 @@ class Parser():
 
         self.serial = ser
         self.buffer = ""
-        self.ack = {"CFG-PRT" : 0}
+        self.ack = {"CFG-PRT": 0}
         self.ubx = {}
 
     def parsedevice(self):
@@ -301,15 +302,15 @@ class Parser():
             line = self.serial.read(512)
             self.parse(line)
 
-    def parse( self, data):
+    def parse(self, data):
         self.buffer += data
         buffer_offset = 0
         # Minimum packet length is 8
         while len(self.buffer) >= buffer_offset + 8:
             # Find the beginning of a UBX message
-            start = self.buffer.find( chr( SYNC1 ) + chr( SYNC2 ), buffer_offset )
+            start = self.buffer.find(chr(SYNC1) + chr(SYNC2), buffer_offset)
 
-            if buffer_offset == 0 and start != 0:  #< 0:
+            if buffer_offset == 0 and start != 0:  # < 0:
                 self.buffer = self.buffer[start:]
                 continue
 
@@ -337,7 +338,8 @@ class Parser():
             self.buffer = self.buffer[start+length+8:]
             buffer_offset = 0
 
-    def send( self, cl, id, length, payload ):
+    '''
+    def send(self, cl, id, length, payload):
 
         stream = struct.pack("<BBBBH", SYNC1, SYNC2, CLIDPAIR[clid][0], CLIDPAIR[clid][1], length)
         if length > 0:
@@ -352,20 +354,21 @@ class Parser():
                 payload_base = payload[0]
                 payload_rep = payload[1:]
                 if (length - fmt_base[0])%fmt_rep[0] != 0:
-                    logging.error( "Cannot send: Variable length message class \
-                        0x%x, id 0x%x has wrong length %i" % ( cl, id, length ) )
+                    logging.error("Cannot send: Variable length message class \
+                        0x%x, id 0x%x has wrong length %i" % (cl, id, length))
                     return
             stream = stream + struct.pack(fmt_base[1], *[payload_base[i] for i in fmt_base[2]])
             if fmt_rep[0] != 0:
                 for i in range(0, (length - fmt_base[0])/fmt_rep[0]):
                     stream = stream + struct.pack(fmt_rep[1], *[payload_rep[i][j] for j in fmt_rep[2]])
-        stream = stream + struct.pack("<BB", *self.checksum( stream[2:] ))
+        stream = stream + struct.pack("<BB", *self.checksum(stream[2:]))
         self.sendraw(stream)
 
     def sendraw(self, data):
         os.write(self.fd, data)
+    '''
 
-    def checksum( self, msg ):
+    def checksum(self, msg):
         ck_a = 0
         ck_b = 0
         for i in msg:
@@ -387,9 +390,9 @@ class Parser():
                 fmt_base = format[:3]
                 fmt_rep = format[3:]
                 # Check if the length matches
-                if (length - fmt_base[0])%fmt_rep[0] != 0:
-                    logging.error( "Variable length message class 0x%x, id 0x%x \
-                        has wrong length %i" % ( cl, id, length ) )
+                if (length - fmt_base[0]) % fmt_rep[0] != 0:
+                    logging.error("Variable length message class 0x%x, id 0x%x \
+                        has wrong length %i" % (cl, id, length))
                     return
                 data.append(dict(zip(fmt_base[2], struct.unpack(fmt_base[1], payload[:fmt_base[0]]))))
                 for i in range(0, (length - fmt_base[0])/fmt_rep[0]):
@@ -397,6 +400,6 @@ class Parser():
                     data.append(dict(zip(fmt_rep[2], struct.unpack(fmt_rep[1], payload[offset:offset+fmt_rep[0]]))))
 
             except KeyError:
-                logging.info( "Unknown message class 0x%x, id 0x%x, length %i" % ( cl, id, length ) )
+                logging.info( "Unknown message class 0x%x, id 0x%x, length %i" % (cl, id, length))
                 return
         self.callback(format[-1], data)
