@@ -8,7 +8,6 @@ Authors:
 Description:
 
 """
-# TODO:
 #   1 Intercept Client close socket (EOF or Read/Write Error)
 #   2 Write on file
 #   3 Send buffered data

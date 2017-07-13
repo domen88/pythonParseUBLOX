@@ -9,7 +9,6 @@ Description:
 
 """
 
-# TODO:
 #   1 Intercept Server close socket (EOF or Read/Write Error)
 #   2 Receive buffered data
 
