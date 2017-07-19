@@ -14,34 +14,16 @@ Description:
 import sys
 import signal
 import ubx
-import time
 import datetime
 import os.path
+import logging
 from decimal import *
-
-'''# Create directory if not exists and open file
-# TODO send CTRL-C to this script at midnight and create a new file (from bash)
-timestamp = time.time()
-out_file_name = "coordinates_" + \
-                datetime.datetime.fromtimestamp(timestamp).strftime('%Y-%m-%d') + ".txt"
-out_path = "generated/"
-if not os.path.exists(out_path):
-    os.makedirs(out_path)
-if not os.path.exists(out_path + out_file_name):
-    out_file = open(out_path + out_file_name, "w")
-else:
-    out_file = open(out_path + out_file_name, "a")
-    out_file.write("\n")
-print "Script started...\nFile Opened...\nStarting parser...."
-
-# Assignment at the start
-ecef_string = llh_string = ""
-ecef_itow = llh_itow = 0'''
+from logging.handlers import TimedRotatingFileHandler
 
 
 # Handler Ctrl-C
 def signal_handler(signal, frame):
-    out_file.close()
+    #out_file.close()
     print('\nOutput File Closed')
     print('You pressed Ctrl+C!')
     # TODO: close serial
@@ -49,7 +31,7 @@ def signal_handler(signal, frame):
     sys.exit(0)
 
 
-def callback(ty, *args):
+def callback(logger, ty, *args):
     # these variables have to survive to callback
     global ecef_string, llh_string, ecef_itow, llh_itow, old_time
     # set precision of Decimal
@@ -164,13 +146,14 @@ def callback(ty, *args):
         # if it is the first time OR it is a new timestamp
         if old_time == 0 or old_time != llh_itow:
             old_time = llh_itow
-            write_line_on_file(ecef_string, llh_string)
+            write_line_on_file(ecef_string, llh_string, logger)
 
 
-def write_line_on_file(string_ecef, string_llh):
+def write_line_on_file(string_ecef, string_llh, logger):
     # Write a line on file --> TIME X Y Z pAcc Lat Lon Height hAcc vAcc
     if string_ecef != "" and string_llh != "":
-        out_file.write(ecef_string+" "+llh_string+"\n")
+        logger.debug(ecef_string+" "+llh_string)
+        # out_file.write(ecef_string+" "+llh_string+"\n")
         # print "DEBUG ::: ECEF " + string_ecef + " LLH " + str(time_llh) + " " + string_llh
 
 
@@ -183,9 +166,41 @@ def main(argv):
 
     port = argv[0]
 
+    #Create logging file and logger
+    out_path = "generated/"
+    if not os.path.exists(out_path):
+        os.makedirs(out_path)
+
+    # get the root logger
+    logger = logging.getLogger()
+    # set overall level to debug, default is warning for root logger
+    logger.setLevel(logging.DEBUG)
+
+    log_file = "generated/coordinates"
+
+    # setup logging to file, rotating at midnight
+    filelog = logging.handlers.TimedRotatingFileHandler(log_file,
+                                                        when='midnight', interval=1, backupCount=0, utc=True)
+    filelog.setLevel(logging.DEBUG)
+    logger.addHandler(filelog)
+
+    # setup logging to console
+    console = logging.StreamHandler()
+    console.setLevel(logging.INFO)
+    logger.addHandler(console)
+
+
+    '''logger = logging.getLogger("Coordinates Log")
+    logger.setLevel(logging.INFO)
+    handler = TimedRotatingFileHandler(log_file, when="m",interval=1,backupCount=0, utc=True)
+    handler.setLevel(logging.DEBUG)
+    logger.addHandler(handler)'''
+
+
+
     # Create directory if not exists and open file
     # TODO send CTRL-C to this script at midnight and create a new file (from bash)
-    global out_file
+    '''global out_file
     timestamp = time.time()
     out_file_name = "coordinates_" + \
                     datetime.datetime.fromtimestamp(timestamp).strftime('%Y-%m-%d') + ".txt"
@@ -198,6 +213,7 @@ def main(argv):
         out_file = open(out_path + out_file_name, "a")
         out_file.write("\n")
     print "Script started...\nFile Opened...\nStarting parser...."
+    '''
 
     # Assignment at the start
     global ecef_string, llh_string, ecef_itow, llh_itow, old_time
@@ -208,7 +224,7 @@ def main(argv):
     signal.signal(signal.SIGINT, signal_handler)
 
     # Start the parser
-    t = ubx.Parser(callback, '/dev/' + port)
+    t = ubx.Parser(callback, '/dev/' + port, logger=logger)
     print "Parser Started...\n"
     t.parsedevice()
 

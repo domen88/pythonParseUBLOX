@@ -279,7 +279,7 @@ MSGFMT_INV = dict( [ [(CLIDPAIR[clid], le),v + [clid]] for (clid, le),v in MSGFM
 
 
 class Parser():
-    def __init__(self, callback, rawCallback=None, device="/dev/ttyACM0"):
+    def __init__(self, callback, rawCallback=None, device="/dev/ttyACM0", logger=None):
         self.callback = callback
         self.rawCallback = rawCallback
         if device:
@@ -294,9 +294,9 @@ class Parser():
         self.buffer = ""
         self.ack = {"CFG-PRT": 0}
         self.ubx = {}
+        self.logger = logger
 
     def parsedevice(self):
-
         while True:
             # STREAM
             line = self.serial.read(512)
@@ -391,8 +391,8 @@ class Parser():
                 fmt_rep = format[3:]
                 # Check if the length matches
                 if (length - fmt_base[0]) % fmt_rep[0] != 0:
-                    logging.error("Variable length message class 0x%x, id 0x%x \
-                        has wrong length %i" % (cl, id, length))
+                    #logging.error("Variable length message class 0x%x, id 0x%x \
+                    #   has wrong length %i" % (cl, id, length))
                     return
                 data.append(dict(zip(fmt_base[2], struct.unpack(fmt_base[1], payload[:fmt_base[0]]))))
                 for i in range(0, (length - fmt_base[0])/fmt_rep[0]):
@@ -400,6 +400,6 @@ class Parser():
                     data.append(dict(zip(fmt_rep[2], struct.unpack(fmt_rep[1], payload[offset:offset+fmt_rep[0]]))))
 
             except KeyError:
-                logging.info( "Unknown message class 0x%x, id 0x%x, length %i" % (cl, id, length))
+                #logging.info( "Unknown message class 0x%x, id 0x%x, length %i" % (cl, id, length))
                 return
-        self.callback(format[-1], data)
+        self.callback(self.logger, format[-1], data)
