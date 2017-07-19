@@ -1,2 +1,2 @@
 # pythonSocket
-Python socket for raspberry pi
+Python parse for UBLOX GNSS raspberry pi 
