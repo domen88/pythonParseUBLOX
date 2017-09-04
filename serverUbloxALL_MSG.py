@@ -32,7 +32,7 @@ def signal_handler(signal, frame):
 
 
 def callback(logger, ty, *args):
-    logger.debug(ty + " " + args)
+    logger.debug(ty + " " + str(args))
 
 
 def main(argv):
@@ -54,7 +54,7 @@ def main(argv):
     # set overall level to debug, default is warning for root logger
     logger.setLevel(logging.DEBUG)
 
-    log_file = "generated/coordinates"
+    log_file = "generated/coordinatesALL"
 
     # setup logging to file, rotating at midnight
     filelog = logging.handlers.TimedRotatingFileHandler(log_file,
