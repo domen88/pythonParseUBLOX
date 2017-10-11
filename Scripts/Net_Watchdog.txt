@@ -1,0 +1,5 @@
+#!/bin/sh
+
+if ! ping -c 5 -q 8.8.8.8 >/dev/null ; then
+        sudo sh /etc/init.d/run_wvdial_start.sh
+fi

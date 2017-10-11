@@ -1,0 +1,6 @@
+#!/bin/sh
+echo "Stopping GNSS script..."
+for pid in `ps aux | grep 'python serverUblox.py$' | grep -v "grep" | awk '{ print $2 }'`
+        do
+                kill -9 $pid
+        done

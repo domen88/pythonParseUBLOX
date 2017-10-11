@@ -1,0 +1,13 @@
+[Unit]
+Description=Start the python script for GNSS data.
+After=run_wvdial.service
+
+[Service]
+ExecStart=/bin/bash /etc/init.d/python_GNSS_start.sh
+ExecStop=/bin/bash /etc/init.d/python_GNSS_stop.sh
+Restart=on-failure
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
+Alias=python_GNSS.service
