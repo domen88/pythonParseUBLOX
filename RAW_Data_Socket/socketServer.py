@@ -56,8 +56,6 @@ def main(argv):
                         break
                     socketClient.sendall(line)
 
-
-
             else:
                 print >> sys.stderr, 'Protocol Error!! Exit'
                 socketClient.close()
