@@ -1,0 +1,12 @@
+[Unit]
+Description=Start the python script for GNSS data.
+
+[Service]
+ExecStart=/bin/bash /etc/init.d/python_GNSS_start.sh
+Restart=always
+RestartSec=3
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
+Alias=python_GNSS.service

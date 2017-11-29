@@ -1,6 +1,0 @@
-#!/bin/sh
-
-        cd /home/pi/serverUBLOX/
-
-        echo "Starting service GNSS..."
-        sudo python serverUblox.py ttyACM0
