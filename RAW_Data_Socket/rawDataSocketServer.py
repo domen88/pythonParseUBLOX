@@ -4,6 +4,8 @@ import sys
 import socket
 import serial
 import threading
+import os
+import time
 
 def printit():
   threading.Timer(20.0, printit).start()
@@ -12,7 +14,7 @@ def printit():
 def main(argv):
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-    server_socket.bind(('localhost', 2101))
+    server_socket.bind(('0.0.0.0', 2101))
     server_socket.listen(2)
 
     while True:
@@ -20,13 +22,20 @@ def main(argv):
         print 'Wait for connection'
         (socketClient, address) = server_socket.accept()
         try:
+            #Reset SERIAL
             print 'Client ADDRESS: ', address
+            print 'Resetting serial port...'
+            os.system("modprobe -r pl2303")
+            os.system("modprobe -r usbserial")
+            time.sleep(5)
+            os.system("modprobe pl2303")
+            time.sleep(5)
+            print 'Serial Port OK!'
             print 'Start sending data to client'
 
-            #TODO Send Data
+            #Open SERIAL
             try:
-                ser = serial.Serial('/dev/ttyUSB0') # open serial port
-                # print(ser.name) # check which port was really used
+                ser = serial.Serial('/dev/ttyUSB0')
                 ser.baudrate = 115200
             except serial.SerialException as e:
                 print 'IOError ', e.strerror
@@ -34,21 +43,20 @@ def main(argv):
             printit()
 
             while True:
-                # STREAM
-                line = self.serial.read(512)
+                # Read Serial and Stream TCP
+                line = ser.read(256)
                 socketClient.send(line)
 
-            #TODO Error case
-            #print >> sys.stderr, 'Protocol Error!! Exit'
             socketClient.close()
             sys.exit(0)
 
         except (KeyboardInterrupt, SystemExit):
             print >> sys.stderr, 'KeyboardInterrupt or SystemExit Received. Exit.'
             socketClient.close()
+            #sys.exit(1)
+            os._exit(0)
 
         finally:
-            # close connection
             print 'Client ', address, 'Disconnected.'
             socketClient.close()
 

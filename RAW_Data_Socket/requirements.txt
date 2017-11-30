@@ -3,3 +3,5 @@ sys
 socket
 serial
 threading
+os
+time
