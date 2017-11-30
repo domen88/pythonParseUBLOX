@@ -1,2 +1,5 @@
 ###### Requirements without Version Specifiers ######
-#socket
+sys
+socket
+serial
+threading

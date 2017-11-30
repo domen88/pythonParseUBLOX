@@ -1,7 +1,9 @@
 #!/usr/bin/python
 
 """
-Authors:
+Authors:while True:
+            # STREAM
+            line = self.serial.read(512)
     Domenico Scotece
     Michele Solimando
 
